@@ -1,0 +1,17 @@
+---
+services:
+  container-hosts:
+    container_name: container-hosts
+    environment:
+      - TZ=Europe/Berlin
+      - HOST_IP=192.168.178.2
+    build: .
+    restart: unless-stopped
+    volumes:
+      - data:/data
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+
+version: '3.5'
+volumes:
+  data: null
+...
