@@ -1,11 +1,11 @@
 ---
 services:
   container-hosts:
+    build: .
     container_name: container-hosts
     environment:
       - TZ=Europe/Berlin
       - HOST_IP=192.168.178.2
-    build: .
     restart: unless-stopped
     volumes:
       - data:/data
