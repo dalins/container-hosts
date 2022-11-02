@@ -1,0 +1,35 @@
+---
+services:
+  blocky:
+    container_name: blocky
+    depends_on:
+      - container-hosts
+    dns:
+      - 1.1.1.1
+      - 9.9.9.9
+    environment:
+      - TZ=Europe/Berlin
+    hostname: blocky
+    image: spx01/blocky:latest
+    #ports:
+      #- 192.168.178.2:53:53
+      #- 192.168.178.2:53:53/udp
+    restart: unless-stopped
+    volumes:
+      - ./blocky/data/app/config.yml:/app/config.yml
+      - data:/container-hosts:ro
+  container-hosts:
+    build: ..
+    container_name: container-hosts
+    environment:
+      - TZ=Europe/Berlin
+      - HOST_IP=192.168.178.2
+    restart: unless-stopped
+    volumes:
+      - data:/data
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+
+version: '3.5'
+volumes:
+  data: null
+...
