@@ -11,9 +11,9 @@ services:
       - TZ=Europe/Berlin
     hostname: blocky
     image: spx01/blocky:latest
-    #ports:
-      #- 192.168.178.2:53:53
-      #- 192.168.178.2:53:53/udp
+    ports:
+      - 192.168.178.2:53:53
+      - 192.168.178.2:53:53/udp
     restart: unless-stopped
     volumes:
       - ./blocky/data/app/config.yml:/app/config.yml
