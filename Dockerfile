@@ -9,6 +9,7 @@ COPY go.mod go.sum ./
 
 RUN go mod download
 
+COPY extractors/* ./extractors/
 COPY main.go ./
 
 RUN go build -o main .
