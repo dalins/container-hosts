@@ -13,5 +13,5 @@ Reduce the management effort required for name resolution when adding or removin
 - Extraction of container name to use it as host name
 
 ## Tested with following services as DNS provider:
-- [blocky](https://0xerr0r.github.io/blocky/)
-- [dnsmasq](https://thekelleys.org.uk/dnsmasq/doc.html) as addn-hosts
+- [blocky](https://0xerr0r.github.io/blocky/) as [Hosts file](https://0xerr0r.github.io/blocky/configuration/#hosts-file)
+- [dnsmasq](https://thekelleys.org.uk/dnsmasq/doc.html) as [addn-hosts](https://thekelleys.org.uk/dnsmasq/docs/dnsmasq-man.html)
