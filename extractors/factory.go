@@ -5,6 +5,10 @@ import (
 )
 
 func CreateExtractor(extractorName string) (Extractor, error) {
+	if extractorName == "ContainerHosts" {
+		return &containerHosts{}, nil
+	}
+
 	if extractorName == "Traefik" {
 		return &traefik{}, nil
 	}
