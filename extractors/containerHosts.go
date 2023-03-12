@@ -13,7 +13,7 @@ func (l *containerHosts) HasFilterLabel() bool {
 }
 
 func (l *containerHosts) FilterLabel() string {
-	return "CONTAINER_HOSTS.ENABLE=true"
+	return "container-hosts.enable=true"
 }
 
 func (l *containerHosts) HostnameFromContainer(container types.Container) (string, error) {
@@ -27,7 +27,7 @@ func (l *containerHosts) HostnameFromContainer(container types.Container) (strin
 
 func (l *containerHosts) hostNameFromLabels(labels map[string]string) (string, error) {
 	for key, value := range labels {
-		if key == "CONTAINER_HOSTS" {
+		if key == "container-hosts" {
 			return l.hostNameFromLabel(value)
 		}
 	}
