@@ -34,8 +34,8 @@ services:
     command: sleep 30
     container_name: busybox
     labels:
-      - container-hosts.enable=true
-      - container-hosts=busybox
+      - CONTAINER_HOSTS.ENABLE=true
+      - CONTAINER_HOSTS=busybox
 
 version: '3.5'
 volumes:
