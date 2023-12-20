@@ -20,10 +20,10 @@ jobs:
       - name: Cache go
         uses: https://github.com/actions/cache@v3
         with:
+          key: go_cache-${{ steps.hash-go.outputs.hash }}
           path: |-
             /root/go/pkg/mod
             /root/.cache/go-build
-          key: go_cache-${{ steps.hash-go.outputs.hash }}
           restore-keys: |-
             go_cache-${{ steps.hash-go.outputs.hash }}
       - name: Build
