@@ -1,7 +1,0 @@
----
-pipeline:
-  lint:
-    image: osshelp/drone-linter
-    settings:
-      skip_markdown: true
-...
