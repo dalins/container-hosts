@@ -6,28 +6,26 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-go@v4
-      - name: Get go-hashfiles
+        with:
+          go-version: stable
+      - id: hash-go
+        name: Get go-hashfiles
         uses: https://gitea.com/actions/go-hashfiles@v0.0.1
-        id: hash-go
         with:
           patterns: |-
             go.mod
-            go.sum                                            
-
+            go.sum
       - name: Echo hash
         run: echo ${{ steps.hash-go.outputs.hash }}
-        
       - name: Cache go
-        id: cache-go
-        uses: https://github.com/actions/cache@v3 # Action cache
-        with: # specify with your GOMODCACHE and GOCACHE
-          path: |- 
+        uses: https://github.com/actions/cache@v3
+        with:
+          path: |-
             /root/go/pkg/mod
             /root/.cache/go-build
-          key: go_cache-${{ steps.hash-go.outputs.hash }}  
+          key: go_cache-${{ steps.hash-go.outputs.hash }}
           restore-keys: |-
-            go_cache-${{ steps.hash-go.outputs.hash }}            
-
+            go_cache-${{ steps.hash-go.outputs.hash }}
       - name: Build
         run: go build -v .
 name: lint
