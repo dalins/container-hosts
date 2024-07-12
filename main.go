@@ -35,17 +35,16 @@ func extractHostNames(extractor extractors.Extractor, ctx context.Context, cli *
 	return hostNames
 }
 
-func writeHostsFile(hostFilePath string, hostIp string, hostNames []string) {
+func writeHostsFile(hostFilePath string, hostIp4 string, hostIp6 string, hostNames []string) {
 	f, err := os.OpenFile(hostFilePath, os.O_RDWR|os.O_CREATE|os.O_TRUNC, 0644)
 	if err != nil {
 		log.Fatal(err)
 	}
 
 	for _, hostName := range hostNames {
-		line := hostIp + "\t" + hostName
-		_, err := f.WriteString(line + "\n")
-		if err != nil {
-			log.Fatal(err)
+		wirteHostTuple(hostIp4, hostName, f)
+		if len(hostIp6) != 0 {
+			wirteHostTuple(hostIp6, hostName, f)
 		}
 	}
 
@@ -54,11 +53,25 @@ func writeHostsFile(hostFilePath string, hostIp string, hostNames []string) {
 	}
 }
 
+func wirteHostTuple(hostIp string, hostName string, f *os.File) {
+	line := hostIp + "\t" + hostName
+	_, err := f.WriteString(line + "\n")
+	if err != nil {
+		log.Fatal(err)
+	}
+}
+
 func main() {
-	hostIpEnvName := "HOST_IP"
-	hostIp, envIsSet := os.LookupEnv(hostIpEnvName)
+	hostIp4EnvName := "HOST_IP4"
+	hostIp4, envIsSet := os.LookupEnv(hostIp4EnvName)
 	if !envIsSet {
-		panic(hostIpEnvName + " is not set")
+		panic(hostIp4EnvName + " is not set")
+	}
+
+	hostIp6EnvName := "HOST_IP6"
+	hostIp6, envIp6IsSet := os.LookupEnv(hostIp6EnvName)
+	if !envIp6IsSet {
+		log.Print("Warning: " + hostIp6EnvName + " is not set")
 	}
 
 	hostsFilePathEnvName := "HOSTS_FILEPATH"
@@ -83,7 +96,7 @@ func main() {
 		panic(err)
 	}
 
-	writeHostsFile(hostsFilePath, hostIp, extractHostNames(extractor, ctx, cli))
+	writeHostsFile(hostsFilePath, hostIp4, hostIp6, extractHostNames(extractor, ctx, cli))
 
 	eventOpts := types.EventsOptions{}
 	eventOpts.Filters = filters.NewArgs()
@@ -98,7 +111,7 @@ func main() {
 			print(err)
 		case msg := <-msgs:
 			if msg.Action == "create" || msg.Action == "destroy" {
-				writeHostsFile(hostsFilePath, hostIp, extractHostNames(extractor, ctx, cli))
+				writeHostsFile(hostsFilePath, hostIp4, hostIp6, extractHostNames(extractor, ctx, cli))
 			}
 		}
 	}

@@ -28,7 +28,7 @@ WORKDIR /app/
 # Copy the Pre-built binary file from the previous stage
 COPY --from=builder /build/main .
 
-ENV HOST_IP=127.0.0.1
+ENV HOST_IP4=127.0.0.1
 ENV HOSTS_FILEPATH=/data/hosts
 ENV EXTRACTOR=Traefik
 

@@ -22,7 +22,8 @@ services:
     container_name: container-hosts
     environment:
       - TZ=Europe/Berlin
-      - HOST_IP=192.168.178.2
+      - HOST_IP4=192.168.178.2
+      - HOST_IP6=fd00::94c6:91aa:9ced
       - EXTRACTOR=ContainerHosts
     restart: unless-stopped
     volumes:
@@ -47,6 +48,7 @@ Result:
 ````ini
 cat /data/hosts 
 192.168.178.2	busybox
+fd00::94c6:91aa:9ced	busybox
 ````
 
 ## Tested with following services as DNS provider:

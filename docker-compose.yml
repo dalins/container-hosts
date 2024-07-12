@@ -5,7 +5,8 @@ services:
     container_name: container-hosts
     environment:
       - TZ=Europe/Berlin
-      - HOST_IP=192.168.178.2
+      - HOST_IP4=192.168.178.5
+      - HOST_IP6=fd00::94c6:91aa:9ced
     restart: unless-stopped
     volumes:
       - data:/data
