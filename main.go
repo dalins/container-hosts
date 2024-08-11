@@ -6,13 +6,14 @@ import (
 	"log"
 	"os"
 
-	"github.com/docker/docker/api/types"
+	"github.com/docker/docker/api/types/container"
+	"github.com/docker/docker/api/types/events"
 	"github.com/docker/docker/api/types/filters"
 	"github.com/docker/docker/client"
 )
 
 func extractHostNames(extractor extractors.Extractor, ctx context.Context, cli *client.Client) []string {
-	opts := types.ContainerListOptions{All: true}
+	opts := container.ListOptions{All: true}
 	if extractor.HasFilterLabel() {
 		opts.Filters = filters.NewArgs()
 		opts.Filters.Add("label", extractor.FilterLabel())
@@ -23,8 +24,8 @@ func extractHostNames(extractor extractors.Extractor, ctx context.Context, cli *
 	}
 
 	var hostNames []string
-	for _, container := range containers {
-		hostName, err := extractor.HostnameFromContainer(container)
+	for _, con := range containers {
+		hostName, err := extractor.HostnameFromContainer(con)
 		if err == nil {
 			hostNames = append(hostNames, hostName)
 		} else {
@@ -98,7 +99,7 @@ func main() {
 
 	writeHostsFile(hostsFilePath, hostIp4, hostIp6, extractHostNames(extractor, ctx, cli))
 
-	eventOpts := types.EventsOptions{}
+	eventOpts := events.ListOptions{}
 	eventOpts.Filters = filters.NewArgs()
 	if extractor.HasFilterLabel() {
 		eventOpts.Filters.Add("label", extractor.FilterLabel())
