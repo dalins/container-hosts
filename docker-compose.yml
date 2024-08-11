@@ -12,7 +12,6 @@ services:
       - data:/data
       - /var/run/docker.sock:/var/run/docker.sock:ro
 
-version: '3.5'
 volumes:
   data: null
 ...
