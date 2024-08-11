@@ -1,5 +1,5 @@
 # Build container:
-FROM golang:alpine3.16 as builder
+FROM golang:alpine3.20 as builder
 
 LABEL maintainer="Daniel Linsenmeyer <devel@dlins.de>"
 
@@ -15,7 +15,7 @@ COPY main.go ./
 RUN go build -o main .
 
 # The real image:
-FROM alpine:3.16
+FROM alpine:3.20
 
 LABEL maintainer="Daniel Linsenmeyer <devel@dlins.de>"
 
